@@ -13,6 +13,14 @@ export function getHeaderData() {
         name: "专利市场",
         link: "/patent",
       },
+      {
+        name: "需求市场",
+        link: "/demand",
+      },
+      {
+        name: "用户中心",
+        link: "/user/center",
+      },
     ],
   };
 }

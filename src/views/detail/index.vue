@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="background-color: rgba(240, 242, 245, 1)">
     <HeaderBar />
     <div
       style="
@@ -98,40 +98,31 @@
             margin-top: 10px;
           "
         >
-          <span style="width: 400px" class="detail-item"
-            >专利申请号：{{ patentData.publication_num }}</span
-          >
-          <span style="width: 400px" class="detail-item"
-            >专利申请日：{{ patentData.application_date }}</span
-          >
-          <span style="width: 400px" class="detail-item"
-            >授权公告日：{{ patentData.authorization_date }}</span
-          >
-          <span style="width: 400px" class="detail-item"
-            >专利权人：{{ patentData.patentee }}</span
-          >
-          <span style="width: 400px" class="detail-item"
-            >专利类型：{{ patentData.patent_type }}</span
-          >
+          <span style="width: 400px" class="detail-item">
+            专利申请号：{{ patentData.publication_num }}
+          </span>
+          <span style="width: 400px" class="detail-item">
+            专利申请日：{{ patentData.application_date }}
+          </span>
+          <span style="width: 400px" class="detail-item">
+            授权公告日：{{ patentData.authorization_date }}
+          </span>
+          <span style="width: 400px" class="detail-item">
+            专利权人：{{ patentData.patentee }}
+          </span>
+          <span style="width: 400px" class="detail-item">
+            专利类型：{{ patentData.patent_type }}
+          </span>
           <span style="width: 400px" class="detail-item">权利状态：有效</span>
-          <span style="width: 400px" class="detail-item"
-            >发明人：{{ patentData.inventor }}</span
-          >
+          <span style="width: 400px" class="detail-item">
+            发明人：{{ patentData.inventor }}
+          </span>
           <span style="width: 400px" class="detail-item">专利评分：60</span>
         </div>
       </div>
     </div>
 
-    <div
-      style="
-        width: 1200px;
-        margin: 40px auto;
-        border-radius: 9.75px;
-        height: 300px;
-        border: 2px solid rgba(91, 104, 207, 1);
-        text-align: center;
-      "
-    >
+    <div class="bar">
       <p style="margin: 10px auto" class="title">开放许可信息</p>
       <hr style="width: 90%" />
       <div
@@ -161,20 +152,51 @@
       <p style="margin: 10px auto" class="title">开放许可声明</p>
       <hr style="width: 90%" />
     </div>
+    <div class="bar" style="height: auto; background-color: white">
+      <p style="margin: 10px auto" class="title">专利信息</p>
+      <hr style="width: 90%" />
+
+      <div
+        v-html="patentDetail"
+        :style="{
+          textAlign: 'left',
+          width: '90%',
+          margin: '10px auto',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+        }"
+      ></div>
+    </div>
     <BottomBar />
   </div>
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
-
+import apiClient from "@/utils/request";
 import store from "@/store/index";
 import BottomBar from "@/components/bottom/index.vue";
 import HeaderBar from "@/components/header/index.vue";
 
 const patentData = ref({});
 
+const resData = ref({}); // 专利详情数据
+const patentDetail = ref({}); // 专利详情html
+const getPatentDetail = async () => {
+  const res = await apiClient.post("/ipr/patent/platform/detail_patent", {
+    patentId: store.state.patentData.patent_id,
+  });
+  resData.value = res.data.data;
+  patentDetail.value = res.data.data.detail;
+};
+
 onMounted(() => {
   patentData.value = store.state.patentData;
+  if (patentData) {
+    getPatentDetail();
+  } else {
+    router.push("/patent");
+  }
 });
 </script>
 <style scoped>
@@ -190,5 +212,17 @@ onMounted(() => {
   color: rgba(0, 0, 0, 1);
   text-align: center;
   vertical-align: top;
+}
+.tabs {
+  width: 90%;
+  margin: 10px auto;
+}
+.bar {
+  width: 1200px;
+  margin: 40px auto;
+  border-radius: 9.75px;
+  height: 300px;
+  border: 2px solid rgba(91, 104, 207, 1);
+  text-align: center;
 }
 </style>

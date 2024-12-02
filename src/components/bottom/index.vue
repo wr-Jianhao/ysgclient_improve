@@ -1,8 +1,10 @@
 <template>
-  <el-row :justify="'center'">
+  <el-row :justify="'center'" style="margin: 10px auto; width: 1600px">
     <el-col
       v-for="item in bottomList"
       :key="item.name"
+      :data-aos="'fade-up'"
+      :data-aos-delay="index * 100"
       style="
         text-align: center;
         display: flex;
@@ -11,10 +13,10 @@
         align-items: center;
         margin-top: 20px;
       "
-      :span="5"
+      :span="6"
     >
       <el-image
-        :src="item.icon.name"
+        :src="item.icon"
         style="width: 100px; height: 100px; margin-right: 10px"
       >
       </el-image>
@@ -163,13 +165,7 @@ const data = getBottomData();
 
 const images = import.meta.glob("@/assets/*.png");
 
-const bottomList = ref(
-  data.bottomList.map((item) => {
-    const imgKey = `/src/assets/${item.icon}`;
-
-    return { ...item, icon: images[imgKey] };
-  }),
-);
+const bottomList = ref(data.bottomList);
 </script>
 <style scoped>
 .bottom-title {

@@ -1,8 +1,67 @@
+<template>
+  <el-row
+    :justify="'center'"
+    style="background-color: rgba(91, 104, 207, 1); width: 100%"
+    :gutter="20"
+  >
+    <el-col :span="4" class="first-row">
+      <el-image
+        style="
+          width: 267px;
+          height: 52px;
+          position: absolute;
+          left: 70px;
+          top: 16px;
+        "
+        :src="headLogo"
+      />
+    </el-col>
+    <el-col :span="14" class="first-row">
+      <div style="margin-left: 20px; display: flex; flex-direction: row">
+        <span v-for="item in headerList" :key="item.name" class="header-item">
+          <el-link
+            target="_blank"
+            :underline="false"
+            @click="handleLinkClick(item.link)"
+          >
+            <p
+              style="
+                font-size: 18px;
+                font-family: SourceHanSansCN;
+                color: white;
+              "
+            >
+              {{ item.name }}
+            </p>
+          </el-link>
+        </span>
+      </div>
+    </el-col>
+    <el-col :span="4" class="first-row">
+      <el-button
+        v-if="!isLoggedIn"
+        style="background-color: rgba(91, 104, 207, 1); border: none"
+        @click="loginOrRegister"
+      >
+        <p style="font-size: 18px; font-family: SourceHanSansCN; color: white">
+          登录/注册
+        </p>
+      </el-button>
+      <p
+        v-else
+        style="font-size: 18px; font-family: SourceHanSansCN; color: white"
+      >
+        {{ userInfo.username }}
+        <!-- <el-button @click="logout"> 登出 </el-button> -->
+      </p>
+    </el-col>
+  </el-row>
+</template>
 <script>
 // 确保路径正确
 import apiClient from "@/utils/request";
 import headLogo from "@/assets/headLogo.png";
-import { getHeaderData } from "./utils/data";
+import { getHeaderData } from "@/components/header/utils/data";
 import { mapState } from "vuex";
 import store from "@/store";
 import router from "@/router";
@@ -46,55 +105,7 @@ export default {
   },
 };
 </script>
-<template>
-  <el-row :justify="'center'" style="background-color: rgba(91, 104, 207, 1)">
-    <el-col :span="4" class="first-row">
-      <el-image
-        style="
-          width: 267px;
-          height: 52px;
-          position: absolute;
-          left: 70px;
-          top: 16px;
-        "
-        :src="headLogo"
-      />
-    </el-col>
-    <el-col :span="16" class="first-row">
-      <span v-for="item in headerList" :key="item.name" class="header-item">
-        <el-link
-          target="_blank"
-          :underline="false"
-          @click="handleLinkClick(item.link)"
-        >
-          <p
-            style="font-size: 18px; font-family: SourceHanSansCN; color: white"
-          >
-            {{ item.name }}
-          </p>
-        </el-link>
-      </span>
-    </el-col>
-    <el-col :span="4" class="first-row">
-      <el-button
-        v-if="!isLoggedIn"
-        style="background-color: rgba(91, 104, 207, 1); border: none"
-        @click="loginOrRegister"
-      >
-        <p style="font-size: 18px; font-family: SourceHanSansCN; color: white">
-          登录/注册
-        </p>
-      </el-button>
-      <p
-        v-else
-        style="font-size: 18px; font-family: SourceHanSansCN; color: white"
-      >
-        {{ userInfo.username }}
-        <el-button @click="logout"> 登出 </el-button>
-      </p>
-    </el-col>
-  </el-row>
-</template>
+
 <style scoped>
 .first-row {
   display: flex;

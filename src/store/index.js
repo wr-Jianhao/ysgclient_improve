@@ -8,10 +8,12 @@ const store = createStore({
     copyrightData: {}, // 用于存储著作权数据
     item: {}, // 其他选中的项目
     isLoggedIn: false,
+    isChoose: false,
     news: {},
     username: "",
     password: "",
     userInfo: {}, // 用户信息
+    demandData: {}, // 需求信息
   },
   mutations: {
     SET_ITEM(state, item) {
@@ -39,6 +41,12 @@ const store = createStore({
     SET_USER_INFO(state, userInfo) {
       state.userInfo = userInfo; // 设置用户信息
     },
+    SET_DEMAND_DATA(state, demandData) {
+      state.demandData = demandData; // 设置需求信息
+    },
+    SET_NEWS(state, news) {
+      state.news = news; // 设置新闻数据
+    },
     CLEAR_DATA(state) {
       state.patentData = null; // 清空专利数据
       state.tradeData = null; // 清空商标数据
@@ -48,6 +56,9 @@ const store = createStore({
       state.username = ""; // 清空用户名
       state.password = ""; // 清空密码
       state.userInfo = {}; // 清空用户信息
+      state.isChoose = false; // 清空选择状态
+      state.news = {}; // 清空新闻数据
+      state.demandData = {}; // 清空需求信息
     },
   },
   actions: {},
@@ -60,6 +71,8 @@ const store = createStore({
     getUsername: (state) => state.username, // 获取用户名
     getPassword: (state) => state.password, // 获取密码
     getUserInfo: (state) => state.userInfo, // 获取用户信息
+    getDemandData: (state) => state.demandData, // 获取需求信息
+    getNews: (state) => state.news, // 获取新闻数据
   },
   plugins: [createPersistedState()], // 使用插件
 });

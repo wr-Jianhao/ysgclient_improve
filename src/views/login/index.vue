@@ -8,9 +8,10 @@
       flex-direction: column;
       align-items: center;
       margin: 0 auto;
+      overflow: hidden;
     "
   >
-    <HeaderBar :header-list="headerList" style="width: 100%" />
+    <HeaderBar />
     <div class="background">
       <el-row>
         <el-col style="margin-left: 600px; margin-top: 100px">
@@ -396,8 +397,8 @@
 </template>
 
 <script>
-import HeaderBar from "../../components/Header/index.vue";
-import { getHeaderData } from "../../components/Header/utils/data";
+import HeaderBar from "@/components/Header/index.vue";
+import { getHeaderData } from "@/components/Header/utils/data";
 import { ref } from "vue";
 import apiClient from "@/utils/request";
 import { useStore } from "vuex";
@@ -450,7 +451,7 @@ export default {
             store.commit("SET_USER_STATE", true);
             store.commit("SET_USER_USERNAME", usernameInput.value);
             store.commit("SET_USER_PASSWORD", passwordInput.value);
-
+            console.log(request);
             router.push("/user"); // 确保在状态更新后再路由跳转
           } else {
             alert(message.value);
